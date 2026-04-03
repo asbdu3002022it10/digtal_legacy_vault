@@ -27,3 +27,7 @@
     "vite-tsconfig-paths": "^6.1.1"
   }
 }
+"scripts": {
+  "build": "???"
+}
+

@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ─────────────────────────────────────────── */
+body {
+  @apply bg-vault-bg text-white antialiased;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+}
+
+/* ── Safe area for iPhones with notch (iOS) ─────── */
+.safe-top    { padding-top: env(safe-area-inset-top); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* ── Touch-friendly tap targets ─────────────────── */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Minimum tap target 44×44px (Apple HIG) */
+button {
+  min-height: 36px;
+}
+
+/* ── Smooth scrolling everywhere ─────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Remove number input spinners ──────────────── */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+/* ── Custom scrollbar (desktop) ─────────────────── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #334155; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+/* ── Responsive table wrapper ───────────────────── */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Utility: word break for long text/email ─────── */
+.break-all { word-break: break-all; }
+.break-word { word-break: break-word; overflow-wrap: break-word; }
+
+/* ── Premium Glassmorphism & Neon UI ────────ـــــ */
+.glass-panel {
+  @apply bg-[#0f1621]/70 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.6)];
+}
+
+.neon-glow-emerald {
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.3), inset 0 0 10px rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.neon-text-emerald {
+  text-shadow: 0 0 15px rgba(16, 185, 129, 0.8);
+}
+
+/* ── 3D Landing Float Animation ───────────────────── */
+@keyframes float3d {
+  0%   { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
+  33%  { transform: translateY(-12px) rotateX(3deg) rotateY(4deg); }
+  66%  { transform: translateY(-6px) rotateX(-2deg) rotateY(-3deg); }
+  100% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
+}
+
+@keyframes float3d-slow {
+  0%   { transform: translateY(0px) rotate(0deg) scale(1); }
+  50%  { transform: translateY(-20px) rotate(3deg) scale(1.03); }
+  100% { transform: translateY(0px) rotate(0deg) scale(1); }
+}
+
+@keyframes pulse-glow-emerald {
+  0%, 100% { box-shadow: 0 0 20px rgba(16,185,129,0.3), 0 0 60px rgba(16,185,129,0.1); }
+  50%       { box-shadow: 0 0 40px rgba(16,185,129,0.6), 0 0 100px rgba(16,185,129,0.2); }
+}
+
+@keyframes pulse-glow-blue {
+  0%, 100% { box-shadow: 0 0 20px rgba(99,102,241,0.3); }
+  50%       { box-shadow: 0 0 40px rgba(99,102,241,0.6); }
+}
+
+/* ── Category Logo Float ───────────────────────────── */
+@keyframes logoFloat {
+  0%   { transform: translateY(0px) scale(1); }
+  100% { transform: translateY(-8px) scale(1.05); }
+}
+
+/* ── Sparkle twinkle ────────────────────────────────── */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50%       { opacity: 1; transform: scale(1.5); }
+}
+
+/* ── Login step fade-in ─────────────────────────────── */
+@keyframes stepFadeIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes stepSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Gradient border spin ────────────────────────────── */
+@keyframes borderSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Utility classes ──────────────────────────────────── */
+.animate-float3d       { animation: float3d 6s ease-in-out infinite; }
+.animate-float3d-slow  { animation: float3d-slow 8s ease-in-out infinite; }
+.animate-pulse-emerald { animation: pulse-glow-emerald 3s ease-in-out infinite; }
+.animate-step-fade     { animation: stepFadeIn 0.4s ease-out forwards; }
+.animate-step-up       { animation: stepSlideUp 0.5s ease-out forwards; }
+
+/* ── Landing page 3D perspective wrapper ─────────────── */
+.perspective-wrapper {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+/* ── Ensure canvas stays behind everything ───────────── */
+.relative { position: relative; }
+main { position: relative; z-index: 1; }

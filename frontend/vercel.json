@@ -1,4 +1,11 @@
 {
-  "buildCommand": "npm ci && npm run build",
-  "outputDirectory": "dist"
+  "build": {
+    "command": "npm ci && npm run build"
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

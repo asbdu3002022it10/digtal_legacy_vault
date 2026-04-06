@@ -14,7 +14,7 @@ from app.models.audit import AuditLog
 from app.schemas.user_schema import UserRead, Token
 
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter(tags=["auth"])
 settings = get_settings()
 
 

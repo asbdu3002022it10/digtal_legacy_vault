@@ -120,6 +120,32 @@ input[type='number']::-webkit-outer-spin-button {
   to { transform: rotate(360deg); }
 }
 
+@keyframes auroraDriftA {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.42; }
+  50% { transform: translate3d(28px, -24px, 0) scale(1.14); opacity: 0.72; }
+}
+
+@keyframes auroraDriftB {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.32; }
+  50% { transform: translate3d(-34px, 18px, 0) scale(1.18); opacity: 0.68; }
+}
+
+@keyframes auroraDriftC {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.26; }
+  50% { transform: translate3d(12px, -18px, 0) scale(1.08); opacity: 0.56; }
+}
+
+@keyframes scanSweep {
+  0% { transform: translateY(-110%); opacity: 0; }
+  12% { opacity: 0.55; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+
+@keyframes radarPulse {
+  0%, 100% { transform: translateX(-50%) scale(0.92); opacity: 0.18; }
+  50% { transform: translateX(-50%) scale(1.12); opacity: 0.36; }
+}
+
 /* ── Utility classes ──────────────────────────────────── */
 .animate-float3d       { animation: float3d 6s ease-in-out infinite; }
 .animate-float3d-slow  { animation: float3d-slow 8s ease-in-out infinite; }
@@ -136,3 +162,48 @@ input[type='number']::-webkit-outer-spin-button {
 /* ── Ensure canvas stays behind everything ───────────── */
 .relative { position: relative; }
 main { position: relative; z-index: 1; }
+
+.login-aurora {
+  filter: blur(70px);
+  mix-blend-mode: screen;
+}
+
+.login-aurora-a {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.38) 0%, rgba(56, 189, 248, 0) 70%);
+  animation: auroraDriftA 8s ease-in-out infinite;
+}
+
+.login-aurora-b {
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.34) 0%, rgba(34, 197, 94, 0) 70%);
+  animation: auroraDriftB 10s ease-in-out infinite;
+}
+
+.login-aurora-c {
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.24) 0%, rgba(14, 165, 233, 0) 72%);
+  animation: auroraDriftC 12s ease-in-out infinite;
+}
+
+.login-grid {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at center, rgba(0, 0, 0, 1), transparent 80%);
+}
+
+.login-scanline::before {
+  content: '';
+  position: absolute;
+  inset: -20% 0 auto;
+  height: 42%;
+  background: linear-gradient(180deg, transparent 0%, rgba(34, 211, 238, 0.18) 48%, transparent 100%);
+  animation: scanSweep 5.5s linear infinite;
+}
+
+.login-radar {
+  background:
+    radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.08) 24%, transparent 48%),
+    radial-gradient(circle, transparent 60%, rgba(34, 211, 238, 0.14) 61%, transparent 63%),
+    radial-gradient(circle, transparent 72%, rgba(34, 197, 94, 0.12) 73%, transparent 75%);
+  animation: radarPulse 6s ease-in-out infinite;
+}

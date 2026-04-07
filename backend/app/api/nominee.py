@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.security import get_current_user
-from app.core.email import send_otp_email
+from app.core.email import send_email
 from app.db.session import get_db
 from app.models.nominee import Nominee
 from app.models.user import User
@@ -67,7 +67,6 @@ def add_nominee(
     db.refresh(nominee)
 
     # Send acceptance email to nominee
-    user_name = current_user.email.split("@")[0]
     accept_link = f"{settings.FRONTEND_URL}/nominee-accept/{accept_token}"
     message = (
         f"Hello {nominee_in.name or nominee_in.email},\n\n"
@@ -79,7 +78,11 @@ def add_nominee(
         f"Note: You will gain access to their vault only if they are inactive for a prolonged period."
     )
     try:
-        send_otp_email(nominee_in.email, message)
+        send_email(
+            nominee_in.email,
+            "Nominee Invitation - Digital Legacy Vault",
+            message,
+        )
     except Exception as e:
         print(f"Email send failed: {e}")
 

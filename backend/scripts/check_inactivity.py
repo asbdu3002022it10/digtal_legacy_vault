@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from app.core.config import get_settings
 from app.models.user import User
 from app.models.nominee import Nominee
-from app.core.email import send_otp_email # Reusing email function for alerts
+from app.core.email import send_email
 
 settings = get_settings()
 engine = create_engine(settings.DATABASE_URL)
@@ -43,7 +43,11 @@ def check_inactivity():
                         f"Note: Secure files require the user's Date of Birth to open."
                     )
                     try:
-                        send_otp_email(nominee.email, message)
+                        send_email(
+                            nominee.email,
+                            "Vault Access Activated - Digital Legacy Vault",
+                            message,
+                        )
                     except Exception as e:
                         print(f"Failed to send email to nominee: {e}")
             

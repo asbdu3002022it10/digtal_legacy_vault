@@ -1,7 +1,15 @@
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { requestOtp, setupSecurity, verifyOtp, verifySecurity } from '@api/authApi'
+import {
+  beginPasskeyAuthentication,
+  finishPasskeyAuthentication,
+  requestOtp,
+  setupSecurity,
+  verifyOtp,
+  verifySecurity,
+} from '@api/authApi'
 import { useAuth } from '@hooks/useAuth'
+import { browserSupportsPasskeys, getPasskeyCredential } from '@utils/passkey'
 
 // ── Step indicator ────────────────────────────────────────────────
 const STEPS = [
@@ -89,6 +97,8 @@ export function Login() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
+  const [passkeyLoading, setPasskeyLoading] = useState(false)
+  const passkeyAvailable = browserSupportsPasskeys() && localStorage.getItem('vault_passkey_ready') === 'true'
 
   async function handleRequestOtp(e: FormEvent) {
     e.preventDefault()
@@ -143,6 +153,20 @@ export function Login() {
     } finally { setLoading(false) }
   }
 
+  async function handlePasskeyLogin() {
+    setPasskeyLoading(true); setError(null); setMessage(null)
+    try {
+      const { public_key, challenge_token } = await beginPasskeyAuthentication()
+      const credential = await getPasskeyCredential(public_key)
+      const token = await finishPasskeyAuthentication(credential, challenge_token)
+      localStorage.setItem('vault_passkey_ready', 'true')
+      setToken(token)
+      navigate('/dashboard', { replace: true })
+    } catch (err: any) {
+      setError(err?.response?.data?.detail || err?.message || 'Fingerprint login failed')
+    } finally { setPasskeyLoading(false) }
+  }
+
   return (
     <div className="w-full max-w-md mx-auto mt-6 sm:mt-12">
       {/* ── Outer glowing card ─── */}
@@ -181,7 +205,27 @@ export function Login() {
 
         {/* ── STEP 1: Email + DOB ─── */}
         {step === 'request' && (
-          <form onSubmit={handleRequestOtp} className="space-y-4 animate-step-up">
+          <div className="space-y-4 animate-step-up">
+            {passkeyAvailable && (
+              <button
+                type="button"
+                onClick={handlePasskeyLogin}
+                disabled={passkeyLoading}
+                className="w-full rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-3 text-sm font-bold text-emerald-300 transition-all hover:bg-emerald-500/15 disabled:opacity-60"
+              >
+                {passkeyLoading ? 'Checking Fingerprint...' : 'Use Fingerprint Login'}
+              </button>
+            )}
+
+            {passkeyAvailable && (
+              <div className="flex items-center gap-3">
+                <div className="h-px flex-1 bg-slate-800" />
+                <span className="text-[10px] uppercase tracking-[0.3em] text-slate-600">or</span>
+                <div className="h-px flex-1 bg-slate-800" />
+              </div>
+            )}
+
+          <form onSubmit={handleRequestOtp} className="space-y-4">
             <div className="space-y-1.5">
               <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Email Address</label>
               <div className="relative">
@@ -242,6 +286,7 @@ export function Login() {
               ) : 'Send Verification Code →'}
             </button>
           </form>
+          </div>
         )}
 
         {/* ── STEP 2: OTP Verify ─── */}

@@ -22,6 +22,10 @@ class User(Base):
     dob = Column(String, nullable=True)
     failed_login_attempts = Column(Integer, default=0, nullable=False)
     webauthn_challenge = Column(String, nullable=True)
+    webauthn_credential_id = Column(String, nullable=True)
+    webauthn_public_key = Column(String, nullable=True)
+    webauthn_sign_count = Column(Integer, default=0, nullable=False)
+    webauthn_registered_at = Column(DateTime, nullable=True)
     
     # 3-Step Security Questions
     sec_q1 = Column(String, nullable=True)

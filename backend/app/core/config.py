@@ -2,7 +2,6 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Optional, List
 
-from pydantic import AnyUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,7 +20,12 @@ class Settings(BaseSettings):
 
     SMTP_EMAIL: Optional[str] = None
     SMTP_PASSWORD: Optional[str] = None
+    RESEND_API_KEY: Optional[str] = None
+    EMAIL_FROM: Optional[str] = None
+    EMAIL_REPLY_TO: Optional[str] = None
     FRONTEND_URL: str = "http://localhost:5173"
+    WEBAUTHN_RP_ID: Optional[str] = None
+    WEBAUTHN_ORIGIN: Optional[str] = None
 
     model_config = SettingsConfigDict(env_file=str(ENV_FILE), case_sensitive=True)
 

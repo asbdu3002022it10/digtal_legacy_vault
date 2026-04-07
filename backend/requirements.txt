@@ -9,5 +9,6 @@ passlib[bcrypt]
 pydantic[email]
 pydantic-settings
 python-multipart
+webauthn
 
 

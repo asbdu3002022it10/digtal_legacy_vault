@@ -1,0 +1,17 @@
+# Environment files
+.env
+*.env
+**/.env
+**/*.env
+
+# Frontend artifacts
+frontend/node_modules/
+frontend/dist/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+
+# Local uploads and databases
+backend/uploads/
+*.db

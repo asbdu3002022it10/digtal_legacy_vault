@@ -57,6 +57,6 @@ def health_check():
 
 
 app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
-app.include_router(vault.router, prefix="/api/vault", tags=["Vault"])
-app.include_router(nominee.router, prefix="/api/nominee", tags=["Nominee"])
-app.include_router(audit.router, prefix="/api/audit", tags=["Audit"])
+app.include_router(vault.router, prefix="/api", tags=["Vault"])
+app.include_router(nominee.router, prefix="/api", tags=["Nominee"])
+app.include_router(audit.router, prefix="/api", tags=["Audit"])
